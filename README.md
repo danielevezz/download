@@ -7,6 +7,6 @@ Add songs songs.csv in the form of "title","artist" and feed it to the script, i
 The max playlist size is 50 songs
 
 
-## dependencies
+## Dependencies
 - BeautifulSoup4
 - requests
