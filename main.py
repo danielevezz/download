@@ -53,26 +53,24 @@ for url in urls:
     # don't know if necessary
     time.sleep(15)
 
-ids = []
-
-getId = re.compile(r"youtu(?:.*\/v\/|.*v\=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})")
-
-for v in watch:
-    ids.append(getId.split(v)[1])
-
-
-videos_id = ','.join([str(x) for x in ids]) 
+# ids = []
+# 
+# getId = re.compile(r"youtu(?:.*\/v\/|.*v\=|\.be\/|.*?embed\/)([A-Za-z0-9_\-]{11})")
+# 
+# for v in watch:
+#     ids.append(getId.split(v)[1])
+# 
+# 
+# videos_id = ','.join([str(x) for x in ids]) 
 
 # generate playlist link to easier download
 # i think max is 50 songs with this url
-playlist_link = "https://www.youtube.com/watch_videos?video_ids=" + videos_id 
-
-print(playlist_link)
+#playlist_link = "https://www.youtube.com/watch_videos?video_ids=" + videos_id 
 
 # append to file
 print(watch)
 with open("video_links.txt", "a+") as output:
-    output.write(playlist_link + "\n")
+    #output.write(playlist_link + "\n")
     for yt_link in watch:
         output.write(yt_link + "\n")
 print("done")
@@ -86,14 +84,10 @@ ydl_opts = {
         'preferredcodec': 'mp3',
         'preferredquality': '192',
     }],
-    'nocheckcertificate': True
+    'nocheckcertificate': True,
+    'outtmpl' : 'music/%(title)s.%(ext)s'
 }
 
 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
     for song in watch:
         ydl.download([song])
-
-
-
-
-       
