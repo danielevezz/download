@@ -3,6 +3,7 @@ import requests
 import csv
 import time
 import re
+import youtube_dl
 
 # Simple script to get youtube link from a csv file containing the 
 # titles and the artist
@@ -71,10 +72,27 @@ print(playlist_link)
 # append to file
 print(watch)
 with open("video_links.txt", "a+") as output:
-    output.write("\n" + playlist_link)
+    output.write(playlist_link + "\n")
     for yt_link in watch:
         output.write(yt_link + "\n")
 print("done")
+
+
+# Download songs with youtube-dl
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '192',
+    }],
+    'nocheckcertificate': True
+}
+
+with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    for song in watch:
+        ydl.download([song])
+
 
 
 
