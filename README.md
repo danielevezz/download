@@ -1,12 +1,7 @@
-# youtube-playlist-generator
-Create a 50 songs playlist for youbube from a csv file.
+# Download
 
-## How it works
-Add songs songs.csv in the form of "title","artist" and feed it to the script, it will generate all the youtube links to the songs and it creates a playlist from those titles.
-
-The max playlist size is 50 songs
-
-
-## Dependencies
-- BeautifulSoup4
-- requests
+Download music from yt. The input is given by a csv file named songs.csv
+```
+title, artist, [album]
+```
+The songs are then stored in music folder
