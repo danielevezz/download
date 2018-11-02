@@ -109,12 +109,12 @@ for song in zip(watch, names):
     artist = song[1][1]
     album = song[1][2]
 
-    ydl_opts['outtmpl'] = f'{title} - {artist}.mp3'
+    ydl_opts['outtmpl'] = f'{title}.mp3'
 
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song[0]])
 
-    file = taglib.File(f'{title} - {artist}.mp3')
+    file = taglib.File(f'{title}.mp3')
     if file:
         file.tags["TITLE"] = [title]
         file.tags["ARTIST"] = [artist]
