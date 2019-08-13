@@ -2,9 +2,8 @@ from bs4 import BeautifulSoup as bs
 import requests
 import csv
 import time
-import re
 import youtube_dl
-import taglib
+from mp3_tagger import MP3File
 import os
 import string
 
@@ -89,16 +88,9 @@ with open("video_links.txt", "a+") as output:
 
 
 # Download songs with youtube-dl
-ydl_opts = {
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
-    'nocheckcertificate': True,
-    'outtmpl': ''
-}
+
+
+# ydl_opts = {}
 
 os.chdir("music")
 
@@ -109,14 +101,27 @@ for song in zip(watch, names):
     artist = song[1][1]
     album = song[1][2]
 
-    ydl_opts['outtmpl'] = f'{title}.mp3'
+
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'nocheckcertificate': True,
+        'outtmpl': f'{title} - {artist}.%(ext)s'
+    }
+
+    nomeFile = f'{title} - {artist}.mp3'
 
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song[0]])
 
-    file = taglib.File(f'{title}.mp3')
+    file = MP3File(nomeFile)
     if file:
-        file.tags["TITLE"] = [title]
-        file.tags["ARTIST"] = [artist]
-        file.tags["ALBUM"] = [album]
+        file.title = title
+        file.artist = artist
+        file.album = album
         file.save()
+
